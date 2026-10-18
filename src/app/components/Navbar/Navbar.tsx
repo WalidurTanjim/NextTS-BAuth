@@ -1,7 +1,13 @@
+"use client"
+
+import { signOut, useSession } from "@/lib/auth-client";
 import Link from "next/link";
 import React from "react";
 
 const Navbar = () => {
+  const {data: sessionData, isPending} = useSession();
+  console.log(sessionData);
+
   return (
     <header className="bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -90,6 +96,19 @@ const Navbar = () => {
             </nav>
 
             <div className="flex items-center gap-4">
+              {
+                isPending ? (
+                  <p>Loading...</p>
+                ) : sessionData?.user ? (
+                <>
+                    <span>Welcome {sessionData?.user?.name}</span>
+                    <button onClick={() => signOut()}
+                    className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"
+                  >
+                    Signout
+                  </button>
+                </>
+            ) : <>
               <div className="sm:flex sm:gap-4">
                 <Link
                   className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm"
@@ -129,6 +148,9 @@ const Navbar = () => {
                   </svg>
                 </button>
               </div>
+              </>
+              }
+              
             </div>
           </div>
         </div>
