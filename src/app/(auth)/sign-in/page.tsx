@@ -1,13 +1,20 @@
 "use client"
+import { signIn } from '@/lib/auth-client';
 import React from 'react'
 
 const SignInPage = () => {
-  const signInFormHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const signInFormHandler = async(e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       const formData = new FormData(e.currentTarget);
       const userData = Object.fromEntries(formData.entries()) as Record<string, string>;
   
       console.log("User data beform submit:", userData);
+
+      const { data: resData, error } = await signIn.email({
+        email: userData?.email,
+        password: userData?.password
+      })
+      console.log("User data after submit:", resData, error);
     }
 
   return (
@@ -28,7 +35,7 @@ const SignInPage = () => {
   </div>
 
    <div>
-    <label className="block text-sm font-medium text-gray-900" htmlFor="email">Email</label>
+    <label className="block text-sm font-medium text-gray-900" htmlFor="email">Password</label>
 
     <input
       className="mt-1 w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:outline-none"
