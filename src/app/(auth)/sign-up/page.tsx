@@ -1,10 +1,21 @@
+"use client"
 import React from 'react'
 
 const SignUpPage = () => {
+  const signUpFormHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const userData = Object.fromEntries(formData.entries()) as Record<string, string>;
+
+    console.log("User data beform submit:", userData);
+
+    
+  }
+
   return (
     <div className='sign-up-page px-2 md:px-5 lg:px-8 py-5'>
       <form
-  className="mx-auto max-w-md space-y-4 rounded-lg border border-gray-300 bg-gray-100 p-6"
+  className="mx-auto max-w-md space-y-4 rounded-lg border border-gray-300 bg-gray-100 p-6" onSubmit={signUpFormHandler}
 >
   <div>
     <label className="block text-sm font-medium text-gray-900" htmlFor="name">Name</label>
